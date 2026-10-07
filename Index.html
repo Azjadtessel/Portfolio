@@ -27,7 +27,6 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Ambient mouse glow effect */
         #cursor-glow {
             pointer-events: none;
             position: fixed;
@@ -36,6 +35,12 @@
             background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
             transition: transform 0.1s ease-out;
             z-index: 10;
+        }
+        .draggable-item {
+            cursor: grab;
+        }
+        .draggable-item:active {
+            cursor: grabbing;
         }
     </style>
 </head>
@@ -53,7 +58,7 @@
             </a>
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
                 <a href="#about" class="hover:text-white transition">About</a>
-                <a href="#simulator" class="hover:text-white transition">Live Demo</a>
+                <a href="#sandbox" class="hover:text-white transition">Interactive Demo</a>
                 <a href="#skills" class="hover:text-white transition">Skills</a>
                 <a href="#experience" class="hover:text-white transition">Experience</a>
                 <a href="#projects" class="hover:text-white transition">Projects</a>
@@ -96,46 +101,104 @@
             </div>
         </section>
 
-        <!-- Interactive Live Automation Simulator Section (New & Interactive!) -->
-        <section id="simulator" class="space-y-6 pt-8 border-t border-cardBorder/60">
+        <!-- Interactive HR Onboarding Automation Sandbox -->
+        <section id="sandbox" class="space-y-6 pt-8 border-t border-cardBorder/60">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Interactive Sandbox</h2>
-                    <h3 class="text-2xl font-bold text-white mt-1">Witness the Automation Impact</h3>
+                    <h2 class="text-xs font-semibold text-sky-400 uppercase tracking-widest">Interactive Workflow Simulator</h2>
+                    <h3 class="text-2xl font-bold text-white mt-1">HR Onboarding Transformation Engine</h3>
+                    <p class="text-xs text-slate-400 mt-1">Drag or click the automation modules onto their corresponding manual steps below to optimize the journey.</p>
                 </div>
-                <button id="runScriptBtn" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-white text-xs font-semibold rounded-xl shadow-lg shadow-sky-500/20 transition cursor-pointer flex items-center gap-2">
-                    <span>▶ Run Automation Script</span>
-                </button>
+                <!-- Live Metrics Bar -->
+                <div class="flex items-center gap-4 bg-cardBg border border-cardBorder px-4 py-2.5 rounded-xl">
+                    <div>
+                        <div class="text-[10px] text-slate-400 uppercase tracking-wider">Man-Hours Saved</div>
+                        <div id="metricHours" class="text-lg font-bold font-mono text-accentGreen">0 hrs</div>
+                    </div>
+                    <div class="w-px h-8 bg-cardBorder"></div>
+                    <div>
+                        <div class="text-[10px] text-slate-400 uppercase tracking-wider">Process ROI</div>
+                        <div id="metricROI" class="text-lg font-bold font-mono text-sky-400">0%</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Manual State Card -->
-                <div class="p-6 rounded-2xl bg-cardBg/80 border border-red-500/30 flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-red-500/10 text-red-400 border border-red-500/20">Manual Process</span>
-                            <span id="manualTime" class="text-xs text-red-400 font-mono font-bold">⏱ 3.5 Hours / Task</span>
-                        </div>
-                        <h4 class="text-lg font-semibold text-white">Spreadsheet & Data Entry Chaos</h4>
-                        <p class="text-xs text-slate-400 mt-1">Prone to human error, manual verification bottlenecks, and repetitive copy-pasting.</p>
+            <!-- Enhancement Palette (Draggable / Clickable Modules) -->
+            <div class="p-4 rounded-2xl bg-cardBg/60 border border-cardBorder space-y-3">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                    <span>⚡ Available Automation Enhancements (Drag or Click to Apply)</span>
+                    <button id="resetDemo" class="text-xs text-sky-400 hover:underline cursor-pointer">Reset Sandbox</button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div draggable="true" ondragstart="drag(event)" id="enh-1" onclick="applyEnhancement(1)" class="draggable-item p-3 rounded-xl bg-darkBg border border-sky-500/30 hover:border-sky-500 transition text-xs space-y-1">
+                        <div class="font-semibold text-sky-400">🤖 Step 1 Upgrade</div>
+                        <div class="text-slate-400">Automated chatbot pre-onboarding & call system</div>
                     </div>
-                    <div class="p-3 rounded-lg bg-darkBg font-mono text-xs text-red-300/80 border border-red-900/30">
-                        status: awaiting_manual_review... [ERROR: Mismatch found in row 142]
+                    <div draggable="true" ondragstart="drag(event)" id="enh-2" onclick="applyEnhancement(2)" class="draggable-item p-3 rounded-xl bg-darkBg border border-sky-500/30 hover:border-sky-500 transition text-xs space-y-1">
+                        <div class="font-semibold text-sky-400">🔗 Step 2 Upgrade</div>
+                        <div class="text-slate-400">DigiLocker API ID verification & direct HRMS sync</div>
+                    </div>
+                    <div draggable="true" ondragstart="drag(event)" id="enh-3" onclick="applyEnhancement(3)" class="draggable-item p-3 rounded-xl bg-darkBg border border-sky-500/30 hover:border-sky-500 transition text-xs space-y-1">
+                        <div class="font-semibold text-sky-400">🎥 Step 3 Upgrade</div>
+                        <div class="text-slate-400">Workspace video modules with AI chatbot QA</div>
+                    </div>
+                    <div draggable="true" ondragstart="drag(event)" id="enh-4" onclick="applyEnhancement(4)" class="draggable-item p-3 rounded-xl bg-darkBg border border-sky-500/30 hover:border-sky-500 transition text-xs space-y-1">
+                        <div class="font-semibold text-sky-400">⚡ Step 4 Upgrade</div>
+                        <div class="text-slate-400">Event-driven auto-emails to relevant stakeholders</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Automated State Card -->
-                <div class="p-6 rounded-2xl bg-cardBg border border-accentGreen/50 flex flex-col justify-between space-y-4 shadow-lg shadow-emerald-500/5">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-accentGreen/10 text-accentGreen border border-accentGreen/20">Automated Workflow</span>
-                            <span id="autoTime" class="text-xs text-accentGreen font-mono font-bold">⚡ 0.4 Seconds</span>
+            <!-- Onboarding Journey Pipeline (Point A to Point B) -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between text-xs font-semibold text-slate-400 px-2">
+                    <span class="flex items-center gap-1 text-white">👤 Point A: Candidate</span>
+                    <span class="flex items-center gap-1 text-accentGreen">🎯 Point B: Onboarded Employee</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- Step 1 Card -->
+                    <div id="step-drop-1" ondragover="allowDrop(event)" ondrop="drop(event, 1)" class="p-4 rounded-xl bg-cardBg border border-red-500/30 transition-all duration-300 flex flex-col justify-between space-y-3 relative overflow-hidden">
+                        <div class="absolute top-2 right-2 px-2 py-0.5 rounded bg-red-500/10 text-red-400 text-[10px] font-semibold border border-red-500/25 status-badge-1">Manual (3 hrs)</div>
+                        <div>
+                            <div class="text-[10px] text-slate-500 font-mono">STEP 01</div>
+                            <h4 id="step-title-1" class="text-sm font-semibold text-white mt-1">Pre-Onboarding Call</h4>
+                            <p id="step-desc-1" class="text-xs text-slate-400 mt-1">Done manually by HR over phone.</p>
                         </div>
-                        <h4 class="text-lg font-semibold text-white">Python & Apps Script Pipeline</h4>
-                        <p class="text-xs text-slate-400 mt-1">Instant execution, automated data validation bridges, and 100% audit compliance.</p>
+                        <div class="text-[10px] font-mono text-slate-500 italic drop-target-hint">Drop enhancement here</div>
                     </div>
-                    <div id="terminalLog" class="p-3 rounded-lg bg-darkBg font-mono text-xs text-accentGreen/90 border border-emerald-900/30">
-                        status: system_idle (Click 'Run Automation Script' above)
+
+                    <!-- Step 2 Card -->
+                    <div id="step-drop-2" ondragover="allowDrop(event)" ondrop="drop(event, 2)" class="p-4 rounded-xl bg-cardBg border border-red-500/30 transition-all duration-300 flex flex-col justify-between space-y-3 relative overflow-hidden">
+                        <div class="absolute top-2 right-2 px-2 py-0.5 rounded bg-red-500/10 text-red-400 text-[10px] font-semibold border border-red-500/25 status-badge-2">Manual (4 hrs)</div>
+                        <div>
+                            <div class="text-[10px] text-slate-500 font-mono">STEP 02</div>
+                            <h4 id="step-title-2" class="text-sm font-semibold text-white mt-1">Paper Data Entry</h4>
+                            <p id="step-desc-2" class="text-xs text-slate-400 mt-1">Manual filling into HRMS system.</p>
+                        </div>
+                        <div class="text-[10px] font-mono text-slate-500 italic drop-target-hint">Drop enhancement here</div>
+                    </div>
+
+                    <!-- Step 3 Card -->
+                    <div id="step-drop-3" ondragover="allowDrop(event)" ondrop="drop(event, 3)" class="p-4 rounded-xl bg-cardBg border border-red-500/30 transition-all duration-300 flex flex-col justify-between space-y-3 relative overflow-hidden">
+                        <div class="absolute top-2 right-2 px-2 py-0.5 rounded bg-red-500/10 text-red-400 text-[10px] font-semibold border border-red-500/25 status-badge-3">Manual (2.5 hrs)</div>
+                        <div>
+                            <div class="text-[10px] text-slate-500 font-mono">STEP 03</div>
+                            <h4 id="step-title-3" class="text-sm font-semibold text-white mt-1">Verbal Insurance Briefing</h4>
+                            <p id="step-desc-3" class="text-xs text-slate-400 mt-1">HR explains details verbally.</p>
+                        </div>
+                        <div class="text-[10px] font-mono text-slate-500 italic drop-target-hint">Drop enhancement here</div>
+                    </div>
+
+                    <!-- Step 4 Card -->
+                    <div id="step-drop-4" ondragover="allowDrop(event)" ondrop="drop(event, 4)" class="p-4 rounded-xl bg-cardBg border border-red-500/30 transition-all duration-300 flex flex-col justify-between space-y-3 relative overflow-hidden">
+                        <div class="absolute top-2 right-2 px-2 py-0.5 rounded bg-red-500/10 text-red-400 text-[10px] font-semibold border border-red-500/25 status-badge-4">Manual (1.5 hrs)</div>
+                        <div>
+                            <div class="text-[10px] text-slate-500 font-mono">STEP 04</div>
+                            <h4 id="step-title-4" class="text-sm font-semibold text-white mt-1">Stakeholder Notice</h4>
+                            <p id="step-desc-4" class="text-xs text-slate-400 mt-1">Manual emails to manager & team.</p>
+                        </div>
+                        <div class="text-[10px] font-mono text-slate-500 italic drop-target-hint">Drop enhancement here</div>
                     </div>
                 </div>
             </div>
@@ -247,7 +310,7 @@
 
     </main>
 
-    <!-- Interactive Scripts -->
+    <!-- Interactive Simulator Logic Script -->
     <script>
         // Mouse follow glow effect
         const glow = document.getElementById('cursor-glow');
@@ -255,28 +318,86 @@
             glow.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
         });
 
-        // Interactive Automation Simulator Script
-        const runBtn = document.getElementById('runScriptBtn');
-        const terminalLog = document.getElementById('terminalLog');
-        
-        runBtn.addEventListener('click', () => {
-            runBtn.disabled = true;
-            runBtn.textContent = 'Executing...';
-            terminalLog.textContent = 'initializing python engine...';
+        // Interactive Onboarding Sandbox Data & State
+        const stepData = {
+            1: { title: "AI Bot Pre-Onboarding", desc: "Automated chatbot & call system managing candidate queries.", hours: 3, roiBoost: 25 },
+            2: { title: "DigiLocker API Sync", desc: "Government IDs & recruitment data flow directly into HRMS.", hours: 4, roiBoost: 35 },
+            3: { title: "Workspace Video & QA", desc: "Automated video task module with integrated chatbot QA.", hours: 2.5, roiBoost: 20 },
+            4: { title: "Event-Driven Auto-Notice", desc: "Automated emails sent instantly to managers & stakeholders.", hours: 1.5, roiBoost: 20 }
+        };
+
+        let automatedSteps = { 1: false, 2: false, 3: false, 4: false };
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drop(ev, stepNum) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            // Extract enhancement number from ID e.g., "enh-2" -> 2
+            const enhNum = parseInt(data.replace('enh-', ''));
+            if (enhNum === stepNum) {
+                applyEnhancement(stepNum);
+            }
+        }
+
+        function applyEnhancement(stepNum) {
+            if (automatedSteps[stepNum]) return; // already automated
+
+            automatedSteps[stepNum] = true;
+            const card = document.getElementById(`step-drop-${stepNum}`);
+            const title = document.getElementById(`step-title-${stepNum}`);
+            const desc = document.getElementById(`step-desc-${stepNum}`);
+            const badge = card.querySelector(`.status-badge-${stepNum}`);
+            const hint = card.querySelector('.drop-target-hint');
+
+            // Update UI to automated state
+            card.classList.remove('border-red-500/30');
+            card.classList.add('border-accentGreen/50', 'bg-cardBg', 'shadow-lg', 'shadow-emerald-500/5');
             
-            setTimeout(() => {
-                terminalLog.textContent = 'fetching HRMS records (600+ items)...';
-            }, 600);
+            title.textContent = stepData[stepNum].title;
+            title.classList.add('text-accentGreen');
+            desc.textContent = stepData[stepNum].desc;
             
-            setTimeout(() => {
-                terminalLog.textContent = 'processing night shift allowance calculations...';
-            }, 1400);
+            badge.textContent = 'Automated ⚡';
+            badge.classList.remove('bg-red-500/10', 'text-red-400', 'border-red-500/25');
+            badge.classList.add('bg-accentGreen/10', 'text-accentGreen', 'border-accentGreen/25');
             
-            setTimeout(() => {
-                terminalLog.textContent = 'success! 0 errors found. Task finished in 0.4s ⚡';
-                runBtn.disabled = false;
-                runBtn.textContent = '▶ Re-run Script';
-            }, 2200);
+            if (hint) hint.remove();
+
+            // Hide the corresponding enhancement card from palette
+            const enhCard = document.getElementById(`enh-${stepNum}`);
+            if (enhCard) {
+                enhCard.style.opacity = '0.3';
+                enhCard.style.pointerEvents = 'none';
+            }
+
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            let totalHours = 0;
+            let totalROI = 0;
+
+            for (let i = 1; i <= 4; i++) {
+                if (automatedSteps[i]) {
+                    totalHours += stepData[i].hours;
+                    totalROI += stepData[i].roiBoost;
+                }
+            }
+
+            document.getElementById('metricHours').textContent = totalHours + ' hrs';
+            document.getElementById('metricROI').textContent = totalROI + '%';
+        }
+
+        // Reset Demo Functionality
+        document.getElementById('resetDemo').addEventListener('click', () => {
+            location.reload();
         });
     </script>
 </body>
