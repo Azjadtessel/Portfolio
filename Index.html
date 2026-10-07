@@ -19,23 +19,30 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.1); }
-            50% { box-shadow: 0 0 30px rgba(56, 189, 248, 0.3); }
-        }
-        .glow-card {
-            animation: pulseGlow 4s infinite ease-in-out;
+        /* Ambient mouse glow effect */
+        #cursor-glow {
+            pointer-events: none;
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            transition: transform 0.1s ease-out;
+            z-index: 10;
         }
     </style>
 </head>
-<body class="bg-darkBg text-slate-300 font-sans antialiased selection:bg-sky-500 selection:text-white">
+<body class="bg-darkBg text-slate-300 font-sans antialiased selection:bg-sky-500 selection:text-white relative overflow-x-hidden">
+
+    <!-- Mouse Glow Element -->
+    <div id="cursor-glow"></div>
 
     <!-- Navigation Bar -->
     <header class="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-darkBg/80 border-b border-cardBorder">
@@ -46,7 +53,7 @@
             </a>
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
                 <a href="#about" class="hover:text-white transition">About</a>
-                <a href="#workflow" class="hover:text-white transition">Automation Demo</a>
+                <a href="#simulator" class="hover:text-white transition">Live Demo</a>
                 <a href="#skills" class="hover:text-white transition">Skills</a>
                 <a href="#experience" class="hover:text-white transition">Experience</a>
                 <a href="#projects" class="hover:text-white transition">Projects</a>
@@ -58,12 +65,12 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="max-w-4xl mx-auto px-6 pt-32 pb-24 space-y-24">
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-24 space-y-24 relative z-20">
 
         <!-- Hero Section -->
         <section class="space-y-6">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/60 border border-slate-700 text-xs text-sky-400 font-medium">
-                Associate HR-Technology
+                Associate HR-Technology & Systems Architect
             </div>
             <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight">
                 I architect systems that bridge HR operations and modern software.
@@ -84,51 +91,51 @@
             <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-4">
                 <h3 class="text-xl font-semibold text-white">A systems architect for HR operations</h3>
                 <p class="text-slate-400 leading-relaxed text-sm md:text-base">
-                    I am an Associate HR-Technology specializing in workflow automation, real-time API data integration, and AI-augmented tool development. My work bridges backend logic with real operational needs — architecting serverless custom tools, resolving data flow bottlenecks, and maintaining rigorous data governance for teams of 600+ people. I translate complex technical requirements into scalable solutions and communicate clearly across both technical and non-technical stakeholders.
+                    I am an Associate HR-Technology specializing in workflow automation, real-time API data integration, and AI-augmented tool development. My work bridges backend logic with real operational needs — architecting serverless custom tools, resolving data flow bottlenecks, and maintaining rigorous data governance for teams of 600+ people.
                 </p>
             </div>
         </section>
 
-        <!-- Interactive Manual vs Automated Workflow Animation Section -->
-        <section id="workflow" class="space-y-6 pt-8 border-t border-cardBorder/60">
+        <!-- Interactive Live Automation Simulator Section (New & Interactive!) -->
+        <section id="simulator" class="space-y-6 pt-8 border-t border-cardBorder/60">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Interactive Transformation</h2>
-                    <h3 class="text-2xl font-bold text-white mt-1">From Manual Friction to Automated Flow</h3>
+                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Interactive Sandbox</h2>
+                    <h3 class="text-2xl font-bold text-white mt-1">Witness the Automation Impact</h3>
                 </div>
-                <button id="toggleAnimBtn" class="px-4 py-2 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-semibold rounded-lg border border-sky-500/30 transition self-start md:self-auto cursor-pointer">
-                    Toggle Simulation State
+                <button id="runScriptBtn" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-white text-xs font-semibold rounded-xl shadow-lg shadow-sky-500/20 transition cursor-pointer flex items-center gap-2">
+                    <span>▶ Run Automation Script</span>
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Manual State Card -->
-                <div id="manualCard" class="p-6 rounded-2xl bg-cardBg/80 border border-red-500/30 relative overflow-hidden transition-all duration-500">
-                    <div class="absolute top-4 right-4 px-2.5 py-1 rounded bg-red-500/10 text-red-400 text-xs font-semibold border border-red-500/20">
-                        Manual Process
+                <div class="p-6 rounded-2xl bg-cardBg/80 border border-red-500/30 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-red-500/10 text-red-400 border border-red-500/20">Manual Process</span>
+                            <span id="manualTime" class="text-xs text-red-400 font-mono font-bold">⏱ 3.5 Hours / Task</span>
+                        </div>
+                        <h4 class="text-lg font-semibold text-white">Spreadsheet & Data Entry Chaos</h4>
+                        <p class="text-xs text-slate-400 mt-1">Prone to human error, manual verification bottlenecks, and repetitive copy-pasting.</p>
                     </div>
-                    <div class="space-y-3 mt-2">
-                        <h4 class="text-lg font-semibold text-white">Traditional Workflow</h4>
-                        <ul class="space-y-2 text-sm text-slate-400">
-                            <li class="flex items-center gap-2">⚠️ High manual data entry & spreadsheet duplication</li>
-                            <li class="flex items-center gap-2">⚠️ Prone to calculation and shift allowance errors</li>
-                            <li class="flex items-center gap-2">⚠️ Slow turnaround time for large employee bases</li>
-                        </ul>
+                    <div class="p-3 rounded-lg bg-darkBg font-mono text-xs text-red-300/80 border border-red-900/30">
+                        status: awaiting_manual_review... [ERROR: Mismatch found in row 142]
                     </div>
                 </div>
 
                 <!-- Automated State Card -->
-                <div id="autoCard" class="p-6 rounded-2xl bg-cardBg border border-accentGreen/50 glow-card relative overflow-hidden transition-all duration-500">
-                    <div class="absolute top-4 right-4 px-2.5 py-1 rounded bg-accentGreen/10 text-accentGreen text-xs font-semibold border border-accentGreen/20">
-                        Automated Workflow
+                <div class="p-6 rounded-2xl bg-cardBg border border-accentGreen/50 flex flex-col justify-between space-y-4 shadow-lg shadow-emerald-500/5">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-accentGreen/10 text-accentGreen border border-accentGreen/20">Automated Workflow</span>
+                            <span id="autoTime" class="text-xs text-accentGreen font-mono font-bold">⚡ 0.4 Seconds</span>
+                        </div>
+                        <h4 class="text-lg font-semibold text-white">Python & Apps Script Pipeline</h4>
+                        <p class="text-xs text-slate-400 mt-1">Instant execution, automated data validation bridges, and 100% audit compliance.</p>
                     </div>
-                    <div class="space-y-3 mt-2">
-                        <h4 class="text-lg font-semibold text-white">Architected System</h4>
-                        <ul class="space-y-2 text-sm text-slate-300">
-                            <li class="flex items-center gap-2">⚡ Instant execution via Google Apps Script & Python</li>
-                            <li class="flex items-center gap-2">⚡ Zero human error with automated calculation engines</li>
-                            <li class="flex items-center gap-2">⚡ 50% faster turnaround with 100% audit compliance</li>
-                        </ul>
+                    <div id="terminalLog" class="p-3 rounded-lg bg-darkBg font-mono text-xs text-accentGreen/90 border border-emerald-900/30">
+                        status: system_idle (Click 'Run Automation Script' above)
                     </div>
                 </div>
             </div>
@@ -139,19 +146,19 @@
             <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Toolkit</h2>
             <h3 class="text-2xl font-bold text-white">Skills & Tools</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3 hover:border-sky-500/50 transition">
                     <h4 class="text-sm font-semibold text-sky-400">Programming & Scripting</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">Python • JavaScript • Google Apps Script • SQL • REST APIs • JSON</p>
                 </div>
-                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3 hover:border-sky-500/50 transition">
                     <h4 class="text-sm font-semibold text-sky-400">Data Analysis & Reporting</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">Advanced Excel • Pivot Tables • VLOOKUP/XLOOKUP • Macros • Data Visualization</p>
                 </div>
-                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3 hover:border-sky-500/50 transition">
                     <h4 class="text-sm font-semibold text-sky-400">Technical Engineering</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">AI-Augmented Development • Prompt Validation • Multi-agent Testing • System Integration</p>
+                    <p class="text-xs text-slate-400 leading-relaxed">AI-Augmented Development • Prompt Validation • Multi-agent Testing • Integration Architecture</p>
                 </div>
-                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3 hover:border-sky-500/50 transition">
                     <h4 class="text-sm font-semibold text-sky-400">Quality & Systems</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">Regression Testing • Data Flow Verification • Technical Documentation • System Audits</p>
                 </div>
@@ -199,7 +206,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Project 1 -->
-                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-3 flex flex-col justify-between">
+                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-3 flex flex-col justify-between hover:border-sky-500/50 transition">
                     <div>
                         <div class="text-xs text-sky-400 font-medium mb-1">Python • REST API • JSON</div>
                         <h4 class="text-lg font-semibold text-white">Intelligent API Data Bridge</h4>
@@ -210,7 +217,7 @@
                 </div>
 
                 <!-- Project 2 -->
-                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-3 flex flex-col justify-between">
+                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-3 flex flex-col justify-between hover:border-sky-500/50 transition">
                     <div>
                         <div class="text-xs text-sky-400 font-medium mb-1">JavaScript • Google Apps Script</div>
                         <h4 class="text-lg font-semibold text-white">HRMS Workflow Automation Tooling</h4>
@@ -240,24 +247,36 @@
 
     </main>
 
-    <!-- Interactive Script -->
+    <!-- Interactive Scripts -->
     <script>
-        const toggleBtn = document.getElementById('toggleAnimBtn');
-        const manualCard = document.getElementById('manualCard');
-        const autoCard = document.getElementById('autoCard');
+        // Mouse follow glow effect
+        const glow = document.getElementById('cursor-glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
+        });
+
+        // Interactive Automation Simulator Script
+        const runBtn = document.getElementById('runScriptBtn');
+        const terminalLog = document.getElementById('terminalLog');
         
-        let isHighlighted = false;
-        toggleBtn.addEventListener('click', () => {
-            isHighlighted = !isHighlighted;
-            if (isHighlighted) {
-                manualCard.style.opacity = '0.3';
-                autoCard.style.transform = 'scale(1.02)';
-                toggleBtn.textContent = 'Reset Simulation';
-            } else {
-                manualCard.style.opacity = '1';
-                autoCard.style.transform = 'scale(1)';
-                toggleBtn.textContent = 'Toggle Simulation State';
-            }
+        runBtn.addEventListener('click', () => {
+            runBtn.disabled = true;
+            runBtn.textContent = 'Executing...';
+            terminalLog.textContent = 'initializing python engine...';
+            
+            setTimeout(() => {
+                terminalLog.textContent = 'fetching HRMS records (600+ items)...';
+            }, 600);
+            
+            setTimeout(() => {
+                terminalLog.textContent = 'processing night shift allowance calculations...';
+            }, 1400);
+            
+            setTimeout(() => {
+                terminalLog.textContent = 'success! 0 errors found. Task finished in 0.4s ⚡';
+                runBtn.disabled = false;
+                runBtn.textContent = '▶ Re-run Script';
+            }, 2200);
         });
     </script>
 </body>
