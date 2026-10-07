@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azjad Tessel — Associate HR-Technology & Workflow Automation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#080c14',
+                        cardBg: '#111827',
+                        cardBorder: '#1f293d',
+                        accent: '#38bdf8',
+                        accentGreen: '#34d399'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.1); }
+            50% { box-shadow: 0 0 30px rgba(56, 189, 248, 0.3); }
+        }
+        .glow-card {
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-300 font-sans antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-darkBg/80 border-b border-cardBorder">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="font-semibold text-white tracking-tight flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-accentGreen animate-pulse"></span>
+                Azjad Tessel
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
+                <a href="#about" class="hover:text-white transition">About</a>
+                <a href="#workflow" class="hover:text-white transition">Automation Demo</a>
+                <a href="#skills" class="hover:text-white transition">Skills</a>
+                <a href="#experience" class="hover:text-white transition">Experience</a>
+                <a href="#projects" class="hover:text-white transition">Projects</a>
+            </nav>
+            <a href="mailto:azjdtessel@gmail.com" class="text-xs md:text-sm px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 hover:bg-sky-500 hover:text-white transition">
+                Get in Touch
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-24 space-y-24">
+
+        <!-- Hero Section -->
+        <section class="space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/60 border border-slate-700 text-xs text-sky-400 font-medium">
+                Associate HR-Technology
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight">
+                I architect systems that bridge HR operations and modern software.
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
+                Turning manual, error-prone administrative processes into reliable, self-running workflows using Python, Google Apps Script, and automated data bridges.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+                <span class="px-3 py-1 bg-cardBg border border-cardBorder rounded-md text-xs text-slate-300">Python & Apps Script</span>
+                <span class="px-3 py-1 bg-cardBg border border-cardBorder rounded-md text-xs text-slate-300">API Integration</span>
+                <span class="px-3 py-1 bg-cardBg border border-cardBorder rounded-md text-xs text-slate-300">AI-Augmented Development</span>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="space-y-4 pt-8 border-t border-cardBorder/60">
+            <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">About Me</h2>
+            <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-4">
+                <h3 class="text-xl font-semibold text-white">A systems architect for HR operations</h3>
+                <p class="text-slate-400 leading-relaxed text-sm md:text-base">
+                    I am an Associate HR-Technology specializing in workflow automation, real-time API data integration, and AI-augmented tool development. My work bridges backend logic with real operational needs — architecting serverless custom tools, resolving data flow bottlenecks, and maintaining rigorous data governance for teams of 600+ people. I translate complex technical requirements into scalable solutions and communicate clearly across both technical and non-technical stakeholders.
+                </p>
+            </div>
+        </section>
+
+        <!-- Interactive Manual vs Automated Workflow Animation Section -->
+        <section id="workflow" class="space-y-6 pt-8 border-t border-cardBorder/60">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Interactive Transformation</h2>
+                    <h3 class="text-2xl font-bold text-white mt-1">From Manual Friction to Automated Flow</h3>
+                </div>
+                <button id="toggleAnimBtn" class="px-4 py-2 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-semibold rounded-lg border border-sky-500/30 transition self-start md:self-auto cursor-pointer">
+                    Toggle Simulation State
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                <!-- Manual State Card -->
+                <div id="manualCard" class="p-6 rounded-2xl bg-cardBg/80 border border-red-500/30 relative overflow-hidden transition-all duration-500">
+                    <div class="absolute top-4 right-4 px-2.5 py-1 rounded bg-red-500/10 text-red-400 text-xs font-semibold border border-red-500/20">
+                        Manual Process
+                    </div>
+                    <div class="space-y-3 mt-2">
+                        <h4 class="text-lg font-semibold text-white">Traditional Workflow</h4>
+                        <ul class="space-y-2 text-sm text-slate-400">
+                            <li class="flex items-center gap-2">⚠️ High manual data entry & spreadsheet duplication</li>
+                            <li class="flex items-center gap-2">⚠️ Prone to calculation and shift allowance errors</li>
+                            <li class="flex items-center gap-2">⚠️ Slow turnaround time for large employee bases</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Automated State Card -->
+                <div id="autoCard" class="p-6 rounded-2xl bg-cardBg border border-accentGreen/50 glow-card relative overflow-hidden transition-all duration-500">
+                    <div class="absolute top-4 right-4 px-2.5 py-1 rounded bg-accentGreen/10 text-accentGreen text-xs font-semibold border border-accentGreen/20">
+                        Automated Workflow
+                    </div>
+                    <div class="space-y-3 mt-2">
+                        <h4 class="text-lg font-semibold text-white">Architected System</h4>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-center gap-2">⚡ Instant execution via Google Apps Script & Python</li>
+                            <li class="flex items-center gap-2">⚡ Zero human error with automated calculation engines</li>
+                            <li class="flex items-center gap-2">⚡ 50% faster turnaround with 100% audit compliance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Tools -->
+        <section id="skills" class="space-y-4 pt-8 border-t border-cardBorder/60">
+            <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Toolkit</h2>
+            <h3 class="text-2xl font-bold text-white">Skills & Tools</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                    <h4 class="text-sm font-semibold text-sky-400">Programming & Scripting</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Python • JavaScript • Google Apps Script • SQL • REST APIs • JSON</p>
+                </div>
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                    <h4 class="text-sm font-semibold text-sky-400">Data Analysis & Reporting</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Advanced Excel • Pivot Tables • VLOOKUP/XLOOKUP • Macros • Data Visualization</p>
+                </div>
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                    <h4 class="text-sm font-semibold text-sky-400">Technical Engineering</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">AI-Augmented Development • Prompt Validation • Multi-agent Testing • System Integration</p>
+                </div>
+                <div class="p-5 rounded-xl bg-cardBg border border-cardBorder space-y-3">
+                    <h4 class="text-sm font-semibold text-sky-400">Quality & Systems</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Regression Testing • Data Flow Verification • Technical Documentation • System Audits</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="space-y-6 pt-8 border-t border-cardBorder/60">
+            <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Experience</h2>
+            <h3 class="text-2xl font-bold text-white">Where I've put this to work</h3>
+
+            <div class="space-y-6">
+                <!-- CareStack -->
+                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <h4 class="text-lg font-semibold text-white">Associate, HR-Tech — Good Methods Software Solutions (CareStack)</h4>
+                        <span class="text-xs text-sky-400 font-medium">Nov 2024 – Present</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside">
+                        <li>Cut document turnaround time by <span class="text-white font-medium">50%</span> for 600+ employees by deploying Python & Apps Script automation workflows.</li>
+                        <li>Built a real-time API bridge connecting external vendor tools to internal systems, eliminating manual data tracking entirely.</li>
+                        <li>Architected an internal AI agent for automated employee query resolution, managing prompt validation and system testing.</li>
+                        <li>Delivered <span class="text-white font-medium">100% compliance</span> in internal and statutory audits as data integrity steward via automated audit scripts.</li>
+                    </ul>
+                </div>
+
+                <!-- SunTec -->
+                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <h4 class="text-lg font-semibold text-white">Software Quality Intern — SunTec Business Solutions</h4>
+                        <span class="text-xs text-slate-500 font-medium">Feb 2024 – Aug 2024</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside">
+                        <li>Identified and resolved data flow bottlenecks between complex system modules through rigorous regression testing.</li>
+                        <li>Authored configuration guides and technical documentation that became the reference standard for incident troubleshooting.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Selected Projects -->
+        <section id="projects" class="space-y-6 pt-8 border-t border-cardBorder/60">
+            <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Selected Projects</h2>
+            <h3 class="text-2xl font-bold text-white">What I've built</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Project 1 -->
+                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-3 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs text-sky-400 font-medium mb-1">Python • REST API • JSON</div>
+                        <h4 class="text-lg font-semibold text-white">Intelligent API Data Bridge</h4>
+                        <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+                            A secure backend service using event-driven triggers to automate data synchronization between third-party systems — ensuring real-time consistency and eliminating data silos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="p-6 rounded-2xl bg-cardBg border border-cardBorder space-y-3 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs text-sky-400 font-medium mb-1">JavaScript • Google Apps Script</div>
+                        <h4 class="text-lg font-semibold text-white">HRMS Workflow Automation Tooling</h4>
+                        <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+                            Custom serverless tools and data processing scripts managing complex business logic — including a dedicated night shift allowance calculation engine.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="pt-12 pb-8 border-t border-cardBorder/60 text-center space-y-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-white">Have a workflow worth automating?</h2>
+            <p class="text-slate-400 max-w-md mx-auto text-sm">
+                I'm currently available for freelance projects and high-impact automation tasks. Let's talk about saving time.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                <a href="mailto:azjdtessel@gmail.com" class="px-6 py-3 rounded-xl bg-sky-500 text-white font-medium text-sm hover:bg-sky-400 transition shadow-lg shadow-sky-500/20">
+                    azjdtessel@gmail.com
+                </a>
+            </div>
+            <p class="text-xs text-slate-600 pt-8">
+                Kollam, India • Designed with intent & built with automation.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Interactive Script -->
+    <script>
+        const toggleBtn = document.getElementById('toggleAnimBtn');
+        const manualCard = document.getElementById('manualCard');
+        const autoCard = document.getElementById('autoCard');
+        
+        let isHighlighted = false;
+        toggleBtn.addEventListener('click', () => {
+            isHighlighted = !isHighlighted;
+            if (isHighlighted) {
+                manualCard.style.opacity = '0.3';
+                autoCard.style.transform = 'scale(1.02)';
+                toggleBtn.textContent = 'Reset Simulation';
+            } else {
+                manualCard.style.opacity = '1';
+                autoCard.style.transform = 'scale(1)';
+                toggleBtn.textContent = 'Toggle Simulation State';
+            }
+        });
+    </script>
+</body>
+</html>
